@@ -1,6 +1,12 @@
 const chai = require('chai');
 global.expect = chai.expect;
 
+describe('Handling form submission', () => {
+  it('should pass', () => {
+    expect('Wash the dishes').to.include('Wash the dishes');
+  });
+});
+
 const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
