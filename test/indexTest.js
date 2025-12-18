@@ -45,7 +45,26 @@ describe('Handling form submission', () => {
     form = document.querySelector('#create-task-form')
     formInput = document.querySelector('#new-task-description')
     taskList = document.querySelector('#tasks')
+
+    // Event Listener
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const taskText = formInput.value;
+
+      const li = document.createElement('li');
+      li.textContent = taskText;
+      taskList.appendChild(li);
+
+      formInput.value = '';
+    });
   })
+
+  function buildToDo(task) {
+    const li = document.createElement('li')
+    li.textContent = task.description
+    taskList.appendChild(li)
+  }
 
   it('should add an event to the form and add input to webpage', () => {
     // Simulate user input
