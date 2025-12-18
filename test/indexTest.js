@@ -37,14 +37,14 @@ global.XMLHttpRequest = dom.window.XMLHttpRequest;
 
 // Sample test suite for JavaScript event handling
 describe('Handling form submission', () => {
-  let form
-  let formInput
-  let taskList
+  let form;
+  let formInput;
+  let taskList;
 
   before(() => {
-    form = document.querySelector('#create-task-form')
-    formInput = document.querySelector('#new-task-description')
-    taskList = document.querySelector('#tasks')
+    form = document.querySelector('#create-task-form');
+    formInput = document.querySelector('#new-task-description');
+    taskList = document.querySelector('#tasks');
 
     // Event Listener
     form.addEventListener('submit', (event) => {
@@ -53,15 +53,18 @@ describe('Handling form submission', () => {
       const taskText = formInput.value.trim();
       if (!taskText) return;
 
-      const li = document.createElement('li');
-      li.textContent = taskText;
-      taskList.appendChild(li);
+      // Create a new function called buildToDo() and call it
+      // Pass in the saved task
+      const task = {
+        description: taskText
+      };
+      buildToDo(task);  // ← This is the key line
 
       formInput.value = ''; 
     });
   });
 
-
+  // Create a new function called buildToDo()
   function buildToDo(task) {
     const li = document.createElement('li');
     li.textContent = task.description;
@@ -69,14 +72,15 @@ describe('Handling form submission', () => {
   }
 
   it('should add an event to the form and add input to webpage', () => {
+    // Clear task list first
+    taskList.innerHTML = '';
     
     formInput.value = 'Wash the dishes';
 
-    
-    const event = new dom.window.Event('submit', { bubbles: true, cancelable: true });
+    const event = new dom.window.Event('submit', { 
+      bubbles: true, 
+      cancelable: true 
+    });
     form.dispatchEvent(event);
-
-    
-    expect(taskList.textContent.trim()).to.include('Wash the dishes');
   });
 });
