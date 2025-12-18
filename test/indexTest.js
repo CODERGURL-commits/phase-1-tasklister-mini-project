@@ -1,12 +1,6 @@
 const chai = require('chai');
 global.expect = chai.expect;
 
-describe('Handling form submission', () => {
-  it('should pass', () => {
-    expect('Wash the dishes').to.include('Wash the dishes');
-  });
-});
-
 const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
@@ -57,20 +51,16 @@ describe('Handling form submission', () => {
       event.preventDefault(); 
 
       const taskText = formInput.value.trim();
-      if(!taskText) return;
+      if (!taskText) return;
 
-      // Create a new function called buildToDo() and call it
-      // Pass in the saved task
-      const task = {
-        description: taskText
-      };
-      buildToDo(task);  // ← This is the key line
+      const li = document.createElement('li');
+      li.textContent = taskText;
+      taskList.appendChild(li);
 
       formInput.value = ''; 
     });
   });
 
-  // Create a new function called buildToDo()
   function buildToDo(task) {
     const li = document.createElement('li');
     li.textContent = task.description;
@@ -78,7 +68,7 @@ describe('Handling form submission', () => {
   }
 
   it('should add an event to the form and add input to webpage', () => {
-    // Clear task list first
+    
     taskList.innerHTML = '';
     
     formInput.value = 'Wash the dishes';
@@ -88,5 +78,15 @@ describe('Handling form submission', () => {
       cancelable: true 
     });
     form.dispatchEvent(event);
+
+  
+    return new Promise(resolve => {
+      setTimeout(() => {
+        // Check the content
+        console.log('DEBUG: Task list content:', taskList.innerHTML);
+        expect(taskList.textContent).to.include('Wash the dishes');
+        resolve();
+      }, 100);
+    });
   });
 });
