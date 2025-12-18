@@ -48,29 +48,35 @@ describe('Handling form submission', () => {
 
     // Event Listener
     form.addEventListener('submit', (event) => {
-      event.preventDefault();
+      event.preventDefault(); 
 
-      const taskText = formInput.value;
+      const taskText = formInput.value.trim();
+      if (!taskText) return;
 
       const li = document.createElement('li');
       li.textContent = taskText;
       taskList.appendChild(li);
 
-      formInput.value = '';
+      formInput.value = ''; 
     });
-  })
+  });
+
 
   function buildToDo(task) {
-    const li = document.createElement('li')
-    li.textContent = task.description
-    taskList.appendChild(li)
+    const li = document.createElement('li');
+    li.textContent = task.description;
+    taskList.appendChild(li);
   }
 
   it('should add an event to the form and add input to webpage', () => {
-    // Simulate user input
-    formInput.value = 'Wash the dishes'
-    const event = new dom.window.Event('submit')
-    form.dispatchEvent(event)
-    expect(taskList.textContent).to.include('Wash the dishes')
-  })
-})
+    
+    formInput.value = 'Wash the dishes';
+
+    
+    const event = new dom.window.Event('submit', { bubbles: true, cancelable: true });
+    form.dispatchEvent(event);
+
+    
+    expect(taskList.textContent.trim()).to.include('Wash the dishes');
+  });
+});
