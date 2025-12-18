@@ -51,7 +51,7 @@ describe('Handling form submission', () => {
       event.preventDefault(); 
 
       const taskText = formInput.value.trim();
-      if (!taskText) return;
+      if(!taskText) return;
 
       // Create a new function called buildToDo() and call it
       // Pass in the saved task
